@@ -45,3 +45,23 @@ export const addUpdatePost = async(formData, images, categoryId, id) =>{
     return {result: product}
 }
 
+//update product views
+export const updateProductViews = async (id) =>{
+    if(!id){
+        return {error: "Product not found!"}
+    }
+
+    let product;
+
+    try {
+        product = await prisma.product.update({
+            where:{id},
+            data:{views:{increment:1}}
+        })
+    } catch (error) {
+        return {error: "Product not updated!"}
+    }
+
+    redirect(`/products/${product?.id}`)
+    return {result: product};
+}

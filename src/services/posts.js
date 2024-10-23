@@ -63,5 +63,4 @@ export const updateProductViews = async (id) =>{
     }
 
     redirect(`/products/${product?.id}`)
-    return {result: product};
 }

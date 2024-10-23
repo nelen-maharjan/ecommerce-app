@@ -9,6 +9,7 @@ const EcommerceLayout = ({ children }) => {
       <Header />
       {children}
     </div>
+    
   );
 };
 

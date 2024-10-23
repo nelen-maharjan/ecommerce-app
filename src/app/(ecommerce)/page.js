@@ -14,7 +14,7 @@ export default async function Home() {
   const [products, popularProducts, categories] = await prisma?.$transaction([
     prisma.product.findMany(query),
     prisma.product.findMany({...query, orderBy:{views:'desc'}}),
-    prisma.order.findMany(query),
+    prisma.category.findMany(query),
   ]);
   return (
     <div className="">
@@ -26,11 +26,12 @@ export default async function Home() {
         products={products} 
         />
         <Separator className='my-4' />
-        <CategoryList />
+        <CategoryList categories={categories} />
         <Enhancement className='my-4' />
         <Flashsales 
         title="Our Products" 
         heading="Explore Our Products" 
+        products={popularProducts}
         />
         <Featured />
       </div>

@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/carousel";
 import Title from "./Title";
 
-const CategoryList = () => {
+const CategoryList = ({categories}) => {
   return (
     <div>
       <Title title="Category" heading="Browse By Category" />
@@ -19,12 +19,13 @@ const CategoryList = () => {
         className="w-full "
       >
         <CarouselContent>
-          {Array.from({ length: 5 }).map((_, index) => (
+          {categories?.map((cat, index) => (
             <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/4">
               <div className="">
                 <div
                   className="border-2 bg-secondaryColor rounded-md h-40 flex justify-center items-center flex-col gap-2 ">
-                    <img src="./workflow_2.png" alt="category" className="w-20 h-20" />
+                    <img src={cat?.image} alt="category" className="w-20 h-20" />
+                    <h2>{cat?.name}</h2>
                 </div>
               </div>
             </CarouselItem>

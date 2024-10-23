@@ -1,8 +1,8 @@
 import React from 'react'
 
-const AddToCart = ({children}) => {
+const AddToCart = ({children, product}) => {
   return (
-    <div>{children}</div>
+    <div className='w-full'>{children}</div>
   )
 }
 

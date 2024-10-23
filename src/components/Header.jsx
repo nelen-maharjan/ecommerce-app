@@ -19,7 +19,7 @@ import { components } from "@/utils/data";
 import { Input } from "./ui/input";
 import { Heart, Menu, ShoppingCart } from "lucide-react";
 
-const Header = () => {
+const Header = ({categories}) => {
   return (
     <div>
       <Navbar />
@@ -44,11 +44,12 @@ const Header = () => {
                   <NavigationMenuTrigger>Category</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                      {components.map((component) => (
+                      {categories.map((component) => (
                         <ListItem
-                          key={component.title}
-                          title={component.title}
-                          href={component.href}
+                          key={component.id}
+                          title={component.name}
+                          href={`/products?cat=${component.id}`}
+                          image={component.image}
                         >
                           {component.description}
                         </ListItem>
@@ -79,7 +80,7 @@ const Header = () => {
 
 export default Header;
 
-const ListItem = forwardRef(({ className, title, children, ...props }, ref) => {
+const ListItem = forwardRef(({ className,image, title, children, ...props }, ref) => {
   return (
     <li>
       <NavigationMenuLink asChild>
@@ -91,7 +92,10 @@ const ListItem = forwardRef(({ className, title, children, ...props }, ref) => {
           )}
           {...props}
         >
-          <div className="text-sm font-medium leading-none">{title}</div>
+          <div className="text-sm font-medium leading-none flex items-center gap-4">
+            <img src={image} alt="cat.image" className="h-8 w-8" />
+            <h2>{title}</h2>
+            </div>
           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
             {children}
           </p>

@@ -7,7 +7,7 @@ import React from 'react'
 const EyeItem = ({id}) => {
   const updateViews = async() => {
     const res = await updateProductViews(id);
-    if(res.error){
+    if(!id){
       toast({variant:'desctructive', title: res.error})
     }
   }

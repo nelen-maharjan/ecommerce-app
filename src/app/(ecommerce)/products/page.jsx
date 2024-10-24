@@ -8,11 +8,13 @@ const ProductsPage = async({searchParams}) => {
         result = await prisma.product.findMany({
             where:{categoryId: searchParams.cat}
         })
+    }else{
+        result = await prisma?.product.findMany();
     }
   return (
     <div className='px-[10%] my-[-5%]'>
         <Flashsales 
-        title="Products By Category" 
+        title={`Products By Category`} 
         heading="Explore Our Products" 
         products={result}
         />

@@ -26,28 +26,28 @@ const Flashsales = ({ title, heading, products }) => {
         className="w-full "
       >
         <CarouselContent>
-          {products?.map((product, index) => (
+          {products?.map((item, index) => (
             <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/4">
               <div className="">
                 <div
                   className="bg-secondaryColor rounded-md h-64 bg-no-repeat bg-cover bg-center relative"
-                  style={{ backgroundImage: `url(${product?.images?.[0]})` }}
+                  style={{ backgroundImage: `url(${item?.product?.images?.[0] || item?.images?.[0]})` }}
                 >
                   <div className="absolute right-4 top-5 flex flex-col gap-2">
-                    <Favourite />
-                    <EyeItem id={product?.id} />
+                    <Favourite id={item?.product?.id || item?.id} />
+                    <EyeItem id={item?.product?.id || item?.id} />
                   </div>
-                  <AddToCart>
+                  <AddToCart item={item?.product || item}>
                     <div className="absolute bottom-0 hover:bg-black w-full hover:text-white text-center text-sm p-2 cursor-pointer transition-all">
                       Add to cart
                     </div>
                   </AddToCart>
                 </div>
-                <h2 className="text-sm py-2">{product?.name}</h2>
+                <h2 className="text-sm py-2">{item?.name || item?.product?.name}</h2>
                 <div>
-                  <span className="text-sm text-red-500 mr-2">Rs 500</span>
+                  <span className="text-sm text-red-500 mr-2">Rs {item?.product?.price || item?.price}</span>
                   <span className="text-sm text-gray-500 line-through">
-                    Rs {product?.price}
+                    Rs {(item?.product?.price || item?.price) + 500}
                   </span>
                 </div>
                 <div className="flex items-center">
@@ -69,7 +69,7 @@ const Flashsales = ({ title, heading, products }) => {
         <CarouselPrevious className="absolute left-[75%] lg:left-[92%] top-[-25px] bg-slate-300" />
         <CarouselNext className="absolute right-0 top-[-25px] bg-slate-300" />
       </Carousel>
-      <Link href="/" className="flex justify-center mt-10">
+      <Link href="/products" className="flex justify-center mt-10">
         <Button className="bg-red-600 text-white">
           View all products
           </Button>

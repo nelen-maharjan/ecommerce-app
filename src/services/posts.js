@@ -64,3 +64,30 @@ export const updateProductViews = async (id) =>{
 
     redirect(`/products/${product?.id}`)
 }
+
+// favourite products
+export const addFavourite = async(productId) =>{
+    const session = await getSession()
+    if(!session?.isLoggedIn){
+        return {error: 'User not found'}
+    }
+
+    let fav;
+    try {
+        fav = await prisma.favourite.findMany({
+            where:{userId: session?.user?.id, productId}
+        })
+        if(!fav.length){
+            fav = await prisma.favourite.create({
+                data: {userId: session?.user?.id, productId}
+            })
+            revalidatePath('/wishlist');
+            return {result: fav}
+        }else{
+            return {error: 'Already added to favourite'}
+        }
+        
+    } catch (error) {
+        return {error: 'Already added to favourite'}
+    }
+}

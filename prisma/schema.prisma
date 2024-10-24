@@ -24,7 +24,7 @@ model User {
 
   createdAt DateTime   @default(now())
   Product   Product[]
-  Favorite  Favorite[]
+  Favourite  Favourite[]
 }
 
 model Category {
@@ -48,7 +48,7 @@ model Product {
   User        User?       @relation(fields: [userId], references: [id])
   createdAt   DateTime    @default(now())
   OrderItem   OrderItem[]
-  Favorite    Favorite[]
+  Favourite    Favourite[]
 }
 
 model Order {
@@ -84,7 +84,7 @@ model AddressInfo {
   @@unique([orderId])
 }
 
-model Favorite {
+model Favourite {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userId    String   @db.ObjectId
   user      User     @relation(fields: [userId], references: [id])

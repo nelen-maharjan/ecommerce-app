@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 
 const Featured = () => {
   return (
-    <div>
+    <div className="mb-8">
       <Title title="Featured" heading="New Arrival" />
       <div className="grid grid-cols-1 lg:grid-cols-2 h-96 gap-2 lg:gap-5">
         <div

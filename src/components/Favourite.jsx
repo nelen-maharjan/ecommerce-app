@@ -18,7 +18,7 @@ const Favourite = ({id}) => {
     <div 
     onClick={addToFavourite}
     className='flex justify-center items-center bg-white p-1.5 rounded-full cursor-pointer'>
-        <Heart size={20} color='gray' />
+        <Heart size={20} color='gray' className='border-0 hover:fill-red-500 hover:outline-none' />
     </div>
   )
 }

@@ -117,7 +117,7 @@ const CartPage = () => {
               <span>Total Cost</span>
               <span>Rs {totalPrice() + 50}</span>
             </div>
-            <button className="bg-indigo-500 font-semibold hover:bg-indigo-600 text-sm text-white uppercase w-full">
+            <button className="bg-indigo-500 font-semibold hover:bg-indigo-600 text-sm text-white py-2 rounded-md transition-all uppercase w-full">
               <AddAddress />
             </button>
         </div>

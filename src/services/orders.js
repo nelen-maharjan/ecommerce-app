@@ -47,7 +47,7 @@ export const createOrder = async (formData, cart) => {
     const transformedItem = cart?.map((item) => {
       return {
         price_data: {
-          currency: "usd",
+          currency: "npr",
           product_data: {
             name: item.product.name,
           },

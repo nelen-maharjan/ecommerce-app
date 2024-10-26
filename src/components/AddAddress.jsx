@@ -22,7 +22,7 @@ const AddAddress = () => {
     console.log(formData, "cart");
     const response = await createOrder(formData, cart);
     if (response.error) {
-      toast({ title: response.error });
+      toast({variant:'destructive', title: response.error });
     } else {
       router.push(response.result);
     }
@@ -77,7 +77,7 @@ const AddAddress = () => {
                 type="number"
                 className="h-10"
               />
-              <FormSubmit className="w-full bg-red-500 text-white h-12 hover:bg-red-400">
+              <FormSubmit className="w-full bg-red-500 text-white h-10 mt-4 hover:bg-red-600 transition-all">
                 Create
               </FormSubmit>
             </form>

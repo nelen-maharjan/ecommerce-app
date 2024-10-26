@@ -82,7 +82,7 @@ export const confirmOrder = async (id) => {
   try {
     order = await prisma.order.update({
       where: { id },
-      data: { isPaid: true },
+      data: { isPaid: true }
     });
     if (!order) {
       return { error: "order not udpated" };
@@ -91,4 +91,4 @@ export const confirmOrder = async (id) => {
     return { error: "order not udpated" };
   }
   return { result: order };
-};
+}

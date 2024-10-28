@@ -85,10 +85,10 @@ export const confirmOrder = async (id) => {
       data: { isPaid: true }
     });
     if (!order) {
-      return { error: "order not udpated" };
+      return { error: "order not updated" };
     }
   } catch (error) {
-    return { error: "order not udpated" };
+    return { error: "order not updated" };
   }
   return { result: order };
 }

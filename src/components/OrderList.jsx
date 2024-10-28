@@ -29,10 +29,10 @@ import {
 
 export const columns = [
   {
-    accessorKey: "name",
-    header: "Full Name",
+    accessorKey: "address",
+    header: "Address",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("name")}</div>
+      <div className="capitalize">{row?.original?.addressInfo?.address}</div>
     ),
   },
   {

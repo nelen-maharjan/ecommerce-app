@@ -26,6 +26,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import Image from "next/image";
 
 export const columns = [
   {
@@ -65,7 +66,7 @@ export const columns = [
     },
     cell: ({ row }) =>{
         return(
-        <img src={row?.original?.image} alt="user-img" className="w-20 h-20 bg-cover rounded-full " />
+        <Image src={row?.original?.image} alt="user-img" width={50} height={50} className="bg-cover rounded-full " />
         )
     },
   },

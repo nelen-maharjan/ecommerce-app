@@ -100,7 +100,7 @@ const Dashboard = async () => {
             <CardDescription>{orders?.length} | Total orders</CardDescription>
           </CardHeader>
           <CardContent>
-            <Link href="/dashboard/users">
+            <Link href="/dashboard/orders">
               <Button className="text-blue-700 border-blue-600 bg-slate-300 hover:text-white">
                 View Details
               </Button>

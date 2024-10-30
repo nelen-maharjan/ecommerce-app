@@ -27,6 +27,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Image from "next/image";
+import OrderDetails from "./OrderDetails";
 
 export const columns = [
   {
@@ -101,7 +102,7 @@ export const columns = [
     header:'Actions',
     cell: ({ row }) => {
       return <div className="flex gap-2">
-        Details
+        <OrderDetails orderItem={row?.original?.OrderItem}>Details</OrderDetails>
         </div>;
     },
   },

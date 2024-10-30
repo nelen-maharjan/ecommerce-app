@@ -37,44 +37,72 @@ export const columns = [
     ),
   },
   {
-    accessorKey: "email",
+    accessorKey: "country",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Email
+          Country
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+    cell: ({ row }) => <div className="capitalize">{row?.original?.addressInfo?.country}</div>,
   },
   {
-    accessorKey: "image",
+    accessorKey: "state",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Image
+          State
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
-    cell: ({ row }) =>{
-        return(
-        <Image src={row?.original?.image} alt="user-img" width={50} height={50} className="bg-cover rounded-full " />
-        )
-    },
+    cell: ({ row }) => <div className="capitalize">{row?.original?.addressInfo?.state}</div>,
   },
   {
-    accessorKey: "role",
-    header: () => <div className="text-right">Role</div>,
+    accessorKey: "city",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          City
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div className="capitalize">{row?.original?.addressInfo?.city}</div>,
+  },
+  {
+    accessorKey: "PhoneNo",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Phone Num
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div className="capitalize">{row?.original?.addressInfo?.PhoneNo}</div>,
+  },
+  {
+    id:'actions',
+    header:'Actions',
     cell: ({ row }) => {
-      return <div className="text-right font-medium">{row.getValue("role")}</div>;
+      return <div className="flex gap-2">
+        Details
+        </div>;
     },
   },
 ];

@@ -103,7 +103,11 @@ const Header = ({ categories, session }) => {
                     <LayoutDashboard size={20}/> <span>Dashboard</span>
                   </Link>
                   <Separator className='my-2' />
-                  
+                  <form action={logout}>
+                    <button className="cursor-pointer border-none outline-none flex items-center gap-2">
+                      Logout
+                    </button>
+                  </form>
                 </div>
               </PopoverContent>
             </Popover>

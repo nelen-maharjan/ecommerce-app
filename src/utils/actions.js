@@ -141,3 +141,10 @@ export const deleteFunction = async({id, table}) => {
   revalidatePath(`/dashboard/${table == 'category' ? 'categories' : `${table}`}s`);
   return {result: item}
 }
+
+//logout
+export const logout = async() =>{
+  const session = await getSession();
+  session.destroy();
+  redirect('/login')
+}

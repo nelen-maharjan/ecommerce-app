@@ -17,9 +17,19 @@ import {
 } from "@/components/ui/navigation-menu";
 import { components } from "@/utils/data";
 import { Input } from "./ui/input";
-import { Heart, Menu, ShoppingCart } from "lucide-react";
+import { Heart, LayoutDashboard, Menu, ShoppingCart } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Label } from "./ui/label";
+import { Separator } from "./ui/separator";
+import { logout } from "@/utils/actions";
 
 const Header = ({ categories, session }) => {
+
   return (
     <div>
       <Navbar />
@@ -69,7 +79,35 @@ const Header = ({ categories, session }) => {
           <Link href="/addtocart">
             <ShoppingCart size={20} />
           </Link>
-          {session?.isLoggedIn ? }
+          {session?.isLoggedIn ? (
+            <Popover>
+              <PopoverTrigger asChild>
+                <Avatar>
+                  <AvatarImage
+                    src={session?.user?.image}
+                    alt={session?.user?.name}
+                  />
+                  <AvatarFallback>{session?.user?.name?.[0]?.toUpperCase()}</AvatarFallback>
+                </Avatar>
+              </PopoverTrigger>
+              <PopoverContent className="w-60">
+                <div className="grid gap-4">
+                  <div className="space-y-2">
+                    <h4 className="font-medium leading-none">{session?.user?.name}</h4>
+                    <p className="text-sm text-muted-foreground">
+                      {session?.user?.email}
+                    </p>
+                  </div>
+                  <Separator className='my-2' />
+                  <Link href='/dashboard' className="flex items-center gap-2">
+                    <LayoutDashboard size={20}/> <span>Dashboard</span>
+                  </Link>
+                  <Separator className='my-2' />
+                  
+                </div>
+              </PopoverContent>
+            </Popover>
+          ) : null}
           <div>
             <Menu size={20} />
           </div>

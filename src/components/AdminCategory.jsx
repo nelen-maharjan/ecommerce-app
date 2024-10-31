@@ -27,25 +27,10 @@ import DeleteButton from "./DeleteButton";
 export const columns = [
   {
     accessorKey: "name",
-    header: "Full Name",
+    header: "Category Name",
     cell: ({ row }) => (
       <div className="capitalize">{row.getValue("name")}</div>
     ),
-  },
-  {
-    accessorKey: "email",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
   },
   {
     accessorKey: "image",
@@ -109,10 +94,10 @@ const AdminCategory = ({catList}) => {
     <div className="w-full px-10">
       <div className="flex justify-between items-center py-4">
         <Input
-          placeholder="Filter emails..."
-          value={table.getColumn("email")?.getFilterValue() ?? ""}
+          placeholder="Filter category name..."
+          value={table.getColumn("name")?.getFilterValue() ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("name")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />

@@ -1,7 +1,6 @@
 import Carousels from "@/components/Carousels";
 import CategoryList from "@/components/CategoryList";
 import Enhancement from "@/components/Enhancement";
-import Featured from "@/components/Featured";
 import Flashsales from "@/components/Flashsales";
 import { Separator } from "@/components/ui/separator";
 import prisma from "@/utils/connection";
@@ -33,7 +32,7 @@ export default async function Home() {
         heading="Explore Our Products" 
         products={popularProducts}
         />
-        <Featured />
+        {/* <Featured /> */}
       </div>
     </div>
   );

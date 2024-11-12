@@ -53,8 +53,8 @@ export const profile = [
   },
   {
     title: "Inspiration",
-    text: "Find our spic and span Limolux vehicle administration, conveying unmatched class and accommodation.",
-    img: "/banner3.png",
+    text: "Find our spic and span Brand fashion, conveying unmatched class and accommodation.",
+    img: "/banner.jpg",
     icon: "lightbulb",
   },
 ];

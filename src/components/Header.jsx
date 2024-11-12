@@ -13,9 +13,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { components } from "@/utils/data";
 import { Input } from "./ui/input";
 import { Heart, LayoutDashboard, Menu, ShoppingCart } from "lucide-react";
 import {
@@ -24,7 +22,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Label } from "./ui/label";
 import { Separator } from "./ui/separator";
 import { logout } from "@/utils/actions";
 

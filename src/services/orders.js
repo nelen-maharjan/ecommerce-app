@@ -3,6 +3,7 @@
 import { getSession } from "@/utils/actions";
 import prisma from "@/utils/connection";
 const axios = require("axios");
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 export const createOrder = async (formData, cart) => {
   const session = await getSession();
@@ -16,12 +17,14 @@ export const createOrder = async (formData, cart) => {
   const country = formData.get("country");
   const pinCode = parseInt(formData.get("pinCode"));
   const PhoneNo = parseInt(formData.get("phoneNo"));
+  const paymentMethod = formData.get("payment_method");
 
   if (!address || !state || !city || !country || !pinCode || !PhoneNo) {
     return { error: "Please fill all fields" };
   }
 
   try {
+    // Prepare cart details for order creation
     const cartDetails = cart?.map((item) => {
       return {
         productId: item.product.id,
@@ -29,7 +32,7 @@ export const createOrder = async (formData, cart) => {
       };
     });
 
-    // Create Order in Database
+    // Create the order in the database
     const order = await prisma.order.create({
       data: {
         addressInfo: {
@@ -45,8 +48,9 @@ export const createOrder = async (formData, cart) => {
       return { error: "Order not created" };
     }
 
+    // Calculate total amount and convert to Paisa (1 NPR = 100 Paisa)
     const totalAmount = cart.reduce((total, item) => total + item.product.price * item.quantity, 0);
-    const amountInPaisa = totalAmount * 100; // Convert to Paisa (1 NPR = 100 Paisa)
+    const amountInPaisa = totalAmount * 100;
 
     // Prepare Khalti Payment Request
     const paymentPayload = {
@@ -69,32 +73,59 @@ export const createOrder = async (formData, cart) => {
       product_details: cart.map((item) => ({
         identity: item.product.id.toString(),
         name: item.product.name,
-        total_price: item.product.price * 100,
+        total_price: item.product.price * 100,  // In Paisa
         quantity: item.quantity,
-        unit_price: item.product.price * 100,
+        unit_price: item.product.price * 100,   // In Paisa
       })),
     };
 
-    console.log("Payment Payload:", paymentPayload);
+    // If payment method is Khalti, initiate Khalti payment
+    if (paymentMethod === "khalti") {
+      const response = await axios.post(
+        "https://a.khalti.com/api/v2/epayment/initiate/",
+        paymentPayload,
+        {
+          headers: {
+            Authorization: `Key ${process.env.KHALTI_SECRET_KEY}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-    // Call Khalti API to initiate payment
-    const response = await axios.post(
-      "https://a.khalti.com/api/v2/epayment/initiate/",
-      paymentPayload,
-      {
-        headers: {
-          Authorization: `Key ${process.env.KHALTI_SECRET_KEY}`,
-          "Content-Type": "application/json",
-        },
+      if (response.data && response.data.payment_url) {
+        return { result: response.data.payment_url };  // Return Khalti payment URL
+      } else {
+        return { error: "Khalti payment initiation failed" };
       }
-    );
+    }
 
-    console.log("Khalti Response:", response.data);
+    // If payment method is Stripe, initiate Stripe checkout session
+    else if (paymentMethod === "stripe") {
+      // Create Stripe Checkout Session
+      const stripeSession = await stripe.checkout.sessions.create({
+        payment_method_types: ["card"],
+        line_items: cartDetails.map((item) => {
+          const product = cart.find((p) => p.product.id === item.productId); // Assuming cart contains the product object
+          return {
+            price_data: {
+              currency: "npr", // Ensure this matches your Stripe account currency
+              product_data: { name: product.product.name },
+              unit_amount: product.product.price * 100, // In cents (NPR to Paisa)
+            },
+            quantity: item.quantity,
+          };
+        }),
+        mode: "payment",
+        success_url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/success/${order.id}`,
+        cancel_url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/cancel`,
+      });
 
-    if (response.data && response.data.payment_url) {
-      return { result: response.data.payment_url }; // Return the payment URL for redirection
-    } else {
-      return { error: "Payment initiation failed" };
+      return { result: stripeSession.url };  // Return the Stripe checkout session URL for frontend redirection
+    }
+
+    // If payment method is invalid
+    else {
+      return { error: "Invalid payment method" };
     }
   } catch (error) {
     console.error("Error creating order:", error);
@@ -112,13 +143,13 @@ export const confirmOrder = async (id) => {
   try {
     order = await prisma.order.update({
       where: { id },
-      data: { isPaid: true }
+      data: { isPaid: true },
     });
     if (!order) {
-      return { error: "order not updated" };
+      return { error: "Order not updated" };
     }
   } catch (error) {
-    return { error: "order not updated" };
+    return { error: "Order not updated" };
   }
   return { result: order };
-}
+};

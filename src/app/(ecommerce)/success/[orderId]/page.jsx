@@ -17,7 +17,7 @@ const SuccessPage = ({params}) => {
       }else{
         setTimeout(()=>{
         router.push('/');
-        }, 5000);
+        }, 3000);
       }
     }
   };

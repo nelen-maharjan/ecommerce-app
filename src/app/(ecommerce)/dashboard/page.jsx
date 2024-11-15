@@ -110,7 +110,7 @@ const Dashboard = async () => {
         <Card className="col-span-1 bg-[#eff3fe]">
           <CardHeader>
             <CardTitle>Sales</CardTitle>
-            <CardDescription>Rs-{0} | Total Revenue</CardDescription>
+            <CardDescription>Rs-{overallTotalPrice} | Total Revenue</CardDescription>
           </CardHeader>
           <CardContent>
             <Link href="/dashboard/users">

@@ -15,7 +15,9 @@ const SuccessPage = ({params}) => {
       if(update.error){
         toast({variant: 'destructive', title: update.error})
       }else{
-        router.push('/')
+        setTimeout(()=>{
+        router.push('/');
+        }, 5000);
       }
     }
   };

@@ -2,8 +2,7 @@
 
 import { getSession } from "@/utils/actions";
 import prisma from "@/utils/connection";
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-const CryptoJS = require("crypto-js");
+const axios = require("axios");
 
 export const createOrder = async (formData, cart) => {
   const session = await getSession();
@@ -11,16 +10,12 @@ export const createOrder = async (formData, cart) => {
     return { error: "User not found" };
   }
 
-  console.log('Form Data:', formData);
-  console.log('Cart:', cart);
-
   const address = formData.get("address");
   const state = formData.get("state");
   const city = formData.get("city");
   const country = formData.get("country");
   const pinCode = parseInt(formData.get("pinCode"));
   const PhoneNo = parseInt(formData.get("phoneNo"));
-  const paymentMethod = formData.get("payment_method");
 
   if (!address || !state || !city || !country || !pinCode || !PhoneNo) {
     return { error: "Please fill all fields" };
@@ -34,128 +29,76 @@ export const createOrder = async (formData, cart) => {
       };
     });
 
-    console.log('Cart Details:', cartDetails);
-
-    const products = await prisma.product.findMany({
-      where: { id: { in: cartDetails.map(item => item.productId) } },
-    });
-    console.log({ products });
-
-    const totalAmount = cartDetails.reduce((acc, item) => {
-      const product = products.find(p => p.id === item.productId);
-      return acc + (product.price * item.quantity);
-    }, 0);
-
-    const taxAmount = 0;
-    const productServiceCharge = 0;
-    const productDeliveryCharge = 0;
-
+    // Create Order in Database
     const order = await prisma.order.create({
       data: {
         addressInfo: {
           create: { address, state, city, country, pinCode, PhoneNo },
         },
         OrderItem: {
-          create: cartDetails.map(item => ({
-            productId: item.productId,
-            quantity: item.quantity,
-          })),
+          create: cartDetails,
         },
       },
     });
 
     if (!order) {
-      console.log('Order creation failed');
       return { error: "Order not created" };
     }
 
-    const transactionUUID = order.id;
+    const totalAmount = cart.reduce((total, item) => total + item.product.price * item.quantity, 0);
+    const amountInPaisa = totalAmount * 100; // Convert to Paisa (1 NPR = 100 Paisa)
 
-    const signature = createSignature({
-      total_amount: totalAmount,
-      transaction_uuid: transactionUUID,
-      product_code: "EPAYTEST",
-    });
-
-    const esewaPayload = {
-      amount: totalAmount, 
-      tax_amount: taxAmount,
-      transaction_uuid: transactionUUID,
-      product_code: "EPAYTEST", 
-      signature: signature,
-      product_service_charge: productServiceCharge,
-      product_delivery_charge: productDeliveryCharge,
-      success_url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/success/${order.id}`,
-      failure_url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/cancel`,
-      signed_field_names: "total_amount,transaction_uuid,product_code",
+    // Prepare Khalti Payment Request
+    const paymentPayload = {
+      return_url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/success/${order.id}`,
+      website_url: process.env.NEXT_PUBLIC_FRONTEND_URL,
+      amount: amountInPaisa,
+      purchase_order_id: order.id.toString(),
+      purchase_order_name: "Order Payment",
+      customer_info: {
+        name: session.user?.name,
+        email: session.user?.email,
+        phone: PhoneNo,
+      },
+      amount_breakdown: [
+        {
+          label: "Total",
+          amount: amountInPaisa,
+        },
+      ],
+      product_details: cart.map((item) => ({
+        identity: item.product.id.toString(),
+        name: item.product.name,
+        total_price: item.product.price * 100,
+        quantity: item.quantity,
+        unit_price: item.product.price * 100,
+      })),
     };
 
-    esewaPayload.signature = signature;
+    console.log("Payment Payload:", paymentPayload);
 
-    if (paymentMethod === "stripe") {
-      const stripeSession = await stripe.checkout.sessions.create({
-        payment_method_types: ["card"],
-        line_items: cartDetails.map((item) => {
-          const product = products.find(p => p.id === item.productId);
-          return {
-            price_data: {
-              currency: "npr",
-              product_data: { name: product.name },
-              unit_amount: product.price * 100,
-            },
-            quantity: item.quantity,
-          };
-        }),
-        mode: "payment",
-        success_url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/success/${order.id}`,
-        cancel_url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/cancel`,
-      });
+    // Call Khalti API to initiate payment
+    const response = await axios.post(
+      "https://a.khalti.com/api/v2/epayment/initiate/",
+      paymentPayload,
+      {
+        headers: {
+          Authorization: `Key ${process.env.KHALTI_SECRET_KEY}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-      return { result: stripeSession.url };
-    } else if (paymentMethod === "esewa") {
-      return { result: "https://rc-epay.esewa.com.np/api/epay/main/v2/form", esewaPayload };
+    console.log("Khalti Response:", response.data);
+
+    if (response.data && response.data.payment_url) {
+      return { result: response.data.payment_url }; // Return the payment URL for redirection
     } else {
-      return { error: "Invalid payment method" };
+      return { error: "Payment initiation failed" };
     }
   } catch (error) {
-    console.error('Error during order creation:', error);
+    console.error("Error creating order:", error);
     return { error: "Order not created" };
   }
 };
 
-const createSignature = (payload) => {
-  const secret = "8gBm/:&EnhH.1/q"; 
-
-  const message = `total_amount=${payload.total_amount},transaction_uuid=${payload.transaction_uuid},product_code=${payload.product_code}`;
-
-  const hash = CryptoJS.HmacSHA256(message, secret);
-
-  const hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
-
-  console.log("Generated eSewa Signature:", hashInBase64);
-
-  return hashInBase64;
-};
-
-
-
-export const confirmOrder = async (id) => {
-  const session = await getSession();
-  if (!session.isLoggedIn) {
-    return { error: "User not found" };
-  }
-
-  let order;
-  try {
-    order = await prisma.order.update({
-      where: { id },
-      data: { isPaid: true },
-    });
-    if (!order) {
-      return { error: "Order not updated" };
-    }
-  } catch (error) {
-    return { error: "Order not updated" };
-  }
-  return { result: order };
-};

@@ -102,3 +102,23 @@ export const createOrder = async (formData, cart) => {
   }
 };
 
+export const confirmOrder = async (id) => {
+  const session = await getSession();
+  if (!session.isLoggedIn) {
+    return { error: "User not found" };
+  }
+
+  let order;
+  try {
+    order = await prisma.order.update({
+      where: { id },
+      data: { isPaid: true }
+    });
+    if (!order) {
+      return { error: "order not updated" };
+    }
+  } catch (error) {
+    return { error: "order not updated" };
+  }
+  return { result: order };
+}

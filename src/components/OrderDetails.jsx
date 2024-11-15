@@ -17,7 +17,7 @@ const OrderDetails = ({children,orderItem}) => {
       <DialogTrigger asChild>
         <Button variant="outline">{children}</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] py-2 pt-3">
         <DialogHeader>
           <DialogTitle>{children}</DialogTitle>
           <DialogDescription>

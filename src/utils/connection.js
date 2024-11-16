@@ -2,14 +2,13 @@ import { PrismaClient } from "@prisma/client";
 
 let prisma;
 
-if(process.env.NODE_ENV==='production'){
+if (process.env.NODE_ENV === "production") {
     prisma = new PrismaClient();
-} else{
-    if(!global.prisma){
-        global.prisma = new PrismaClient();
-    } else{
-        prisma = global.prisma;
+} else {
+    if (!globalThis.prisma) {
+        globalThis.prisma = new PrismaClient();
     }
+    prisma = globalThis.prisma;
 }
 
-export default prisma
+export default prisma;

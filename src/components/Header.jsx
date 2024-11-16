@@ -1,5 +1,4 @@
 "use client";
-
 import React, { forwardRef } from "react";
 import Navbar from "./Navbar";
 import Link from "next/link";
@@ -26,7 +25,6 @@ import { Separator } from "./ui/separator";
 import { logout } from "@/utils/actions";
 
 const Header = ({ categories, session }) => {
-
   return (
     <div>
       <Navbar />
@@ -95,11 +93,11 @@ const Header = ({ categories, session }) => {
                       {session?.user?.email}
                     </p>
                   </div>
-                  <Separator className='my-2' />
-                  <Link href='/dashboard' className="flex items-center gap-2">
-                    <LayoutDashboard size={20}/> <span>Dashboard</span>
+                  <Separator className="my-2" />
+                  <Link href="/dashboard" className="flex items-center gap-2">
+                    <LayoutDashboard size={20} /> <span>Dashboard</span>
                   </Link>
-                  <Separator className='my-2' />
+                  <Separator className="my-2" />
                   <form action={logout}>
                     <button className="cursor-pointer border-none outline-none flex items-center gap-2">
                       Logout

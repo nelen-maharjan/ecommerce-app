@@ -74,6 +74,13 @@ const Header = ({ categories, session }) => {
           <Link href="/addtocart">
             <ShoppingCart size={20} />
           </Link>
+
+          {!session?.isLoggedIn && (
+            <Link href="/login" className="text-slate-800 hover:underline">
+              Login
+            </Link>
+          )}
+
           {session?.isLoggedIn ? (
             <Popover>
               <PopoverTrigger asChild>
@@ -107,6 +114,7 @@ const Header = ({ categories, session }) => {
               </PopoverContent>
             </Popover>
           ) : null}
+
           <div>
             <Menu size={20} />
           </div>

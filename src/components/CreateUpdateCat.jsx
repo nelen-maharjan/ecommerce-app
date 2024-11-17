@@ -14,6 +14,7 @@ import FormInput from "./FormInput";
 import { UploadButton } from "@/lib/uploadthing";
 import { createCategory } from "@/services/categories";
 import { toast } from "@/hooks/use-toast";
+import Image from "next/image";
 
 const CreateUpdateCat = ({ children,category }) => {
   const [image, setImage] = useState("");
@@ -68,7 +69,10 @@ const CreateUpdateCat = ({ children,category }) => {
                 />
               ) : (
                 <div className="flex items-center gap-2">
-                  <img src={image} className="h-16 w-30" alt="category-img" />
+                  <Image src={image} 
+                  width={80}
+                  height={40}
+                  alt="category-img" />
                 </div>
               )}
             </div>

@@ -18,6 +18,7 @@ import { getCategories } from "@/services/categories";
 import { UploadDropzone } from "@/lib/uploadthing";
 import { addUpdatePost } from "@/services/posts";
 import { toast } from "@/hooks/use-toast";
+import Image from "next/image";
 
 export function CreateUpdateProd({ children, product }) {
   const form = useForm();
@@ -114,9 +115,10 @@ export function CreateUpdateProd({ children, product }) {
                 <div className="flex items-center gap-2">
                   {images?.map((img, index) => (
                     <div key={index}>
-                      <img
+                      <Image
                         src={img?.url || img}
-                        className="h-16 w-30"
+                        width={80}
+                        height={70}
                         alt="category-img"
                       />
                     </div>

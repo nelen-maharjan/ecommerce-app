@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/carousel";
 import Title from "./Title";
 import Link from "next/link";
+import Image from "next/image";
 
 const CategoryList = ({categories}) => {
   return (
@@ -25,7 +26,12 @@ const CategoryList = ({categories}) => {
               <Link href={`/products?cat=${cat.id}`}>
                 <div
                   className="border-2 bg-secondaryColor rounded-md h-40 flex justify-center items-center flex-col gap-2 ">
-                    <img src={cat?.image} alt="category" className="w-20 h-20" />
+                    <Image 
+                    src={cat?.image} 
+                    alt="category" 
+                    width={70}
+                    height={70}
+                    />
                     <h2>{cat?.name}</h2>
                 </div>
               </Link>

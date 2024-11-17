@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/table";
 import CreateUpdateCat from "./CreateUpdateCat";
 import DeleteButton from "./DeleteButton";
+import Image from "next/image";
 
 export const columns = [
   {
@@ -46,7 +47,11 @@ export const columns = [
     },
     cell: ({ row }) =>{
         return(
-        <img src={row?.original?.image} alt="user-img" className="w-20 h-20 bg-cover rounded-md " />
+        <Image src={row?.original?.image} 
+        alt="user-img" 
+        width={100}
+        height={100}
+        className="bg-cover rounded-md" />
         )
     },
   },

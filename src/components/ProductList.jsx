@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/table";
 import {CreateUpdateProd} from "./CreateUpdateProd";
 import DeleteButton from "./DeleteButton";
+import Image from "next/image";
 
 export const columns = [
   {
@@ -68,7 +69,7 @@ export const columns = [
     },
     cell: ({ row }) =>{
         return(
-        <img src={row?.original?.images[0]} alt="product-img" className="w-30 h-16 bg-cover" />
+        <Image src={row?.original?.images[0]} width={130} height={100} alt="product-img" className="bg-cover" />
         )
     },
   },

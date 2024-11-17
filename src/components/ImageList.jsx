@@ -6,6 +6,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import Image from "next/image";
 
 const ImageList = ({ images }) => {
   return (
@@ -19,7 +20,7 @@ const ImageList = ({ images }) => {
         {images?.map((image, index) => (
           <CarouselItem key={index}>
             <div >
-              <img src={image} alt="category" className="h-40 w-40 object-contain" />
+              <Image src={image} alt="category" width={160} height={160} className="object-contain" />
               <h2></h2>
             </div>
           </CarouselItem>

@@ -117,8 +117,8 @@ export function CreateUpdateProd({ children, product }) {
                     <div key={index}>
                       <Image
                         src={img?.url || img}
-                        width={80}
-                        height={70}
+                        width={100}
+                        height={80}
                         alt="category-img"
                       />
                     </div>

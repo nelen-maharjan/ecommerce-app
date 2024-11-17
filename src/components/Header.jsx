@@ -89,13 +89,17 @@ const Header = ({ categories, session }) => {
                     src={session?.user?.image}
                     alt={session?.user?.name}
                   />
-                  <AvatarFallback>{session?.user?.name?.[0]?.toUpperCase()}</AvatarFallback>
+                  <AvatarFallback>
+                    {session?.user?.name?.[0]?.toUpperCase()}
+                  </AvatarFallback>
                 </Avatar>
               </PopoverTrigger>
               <PopoverContent className="w-60">
                 <div className="grid gap-4">
                   <div className="space-y-2">
-                    <h4 className="font-medium leading-none">{session?.user?.name}</h4>
+                    <h4 className="font-medium leading-none">
+                      {session?.user?.name}
+                    </h4>
                     <p className="text-sm text-muted-foreground">
                       {session?.user?.email}
                     </p>
@@ -140,7 +144,7 @@ const ListItem = forwardRef(
             {...props}
           >
             <div className="text-sm font-medium leading-none flex items-center gap-4">
-              <img src={image} alt="cat.image" className="h-8 w-8" />
+              <Image src={image} alt="cat.image" width={50} height={50} />
               <h2>{title}</h2>
             </div>
             <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">

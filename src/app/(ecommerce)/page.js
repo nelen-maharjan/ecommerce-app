@@ -1,5 +1,6 @@
 import Carousels from "@/components/Carousels";
 import CategoryList from "@/components/CategoryList";
+import ChooseUs from "@/components/ChooseUs";
 import Enhancement from "@/components/Enhancement";
 import Flashsales from "@/components/Flashsales";
 import { Separator } from "@/components/ui/separator";
@@ -33,6 +34,7 @@ export default async function Home() {
           <CategoryList categories={categories} />
           <Enhancement className="my-4" />
           <Flashsales title="Our Products" heading="Explore Our Products" products={popularProducts} />
+          <ChooseUs  />
         </div>
       </div>
     );

@@ -1,5 +1,6 @@
 import React from 'react'
 import { CreditCardIcon, ShieldCheck, ShoppingBag, TruckIcon } from 'lucide-react'
+import Newsletter from './Newsletter'
 
 const ChooseUs = () => {
   return (
@@ -27,6 +28,7 @@ const ChooseUs = () => {
                 <p className='font-medium text-sm text-center'>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
             </div>
         </div>
+        <Newsletter />
     </div>
   )
 }

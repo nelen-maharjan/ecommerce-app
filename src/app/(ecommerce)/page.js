@@ -3,6 +3,7 @@ import CategoryList from "@/components/CategoryList";
 import ChooseUs from "@/components/ChooseUs";
 import Enhancement from "@/components/Enhancement";
 import Flashsales from "@/components/Flashsales";
+import Footer from "@/components/Footer";
 import { Separator } from "@/components/ui/separator";
 import prisma from "@/utils/connection";  // Import the Prisma client
 
@@ -35,6 +36,7 @@ export default async function Home() {
           <Enhancement className="my-4" />
           <Flashsales title="Our Products" heading="Explore Our Products" products={popularProducts} />
           <ChooseUs  />
+          <Footer />
         </div>
       </div>
     );

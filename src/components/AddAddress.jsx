@@ -34,9 +34,8 @@ const AddAddress = () => {
     } else {
       if (paymentMethod === "khalti") {
         // Redirect directly to Khalti payment URL
-        window.location.href = response.result;  // Use the Khalti URL to redirect
+        window.location.href = response.result; 
       } else {
-        // Redirect to Stripe or other payment provider's page
         router.push(response.result);
       }
     }
@@ -47,17 +46,17 @@ const AddAddress = () => {
       <SheetTrigger>Checkout</SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Address</SheetTitle>
+          <SheetTitle>Address Info</SheetTitle>
           <SheetDescription>
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                submit(new FormData(e.target));  // Collect form data
+                submit(new FormData(e.target)); 
               }}
             >
               <FormInput
                 id="address"
-                name="address"  // Ensure name attribute is added
+                name="address" 
                 label="Address"
                 placeholder="Enter address"
                 type="text"
@@ -65,7 +64,7 @@ const AddAddress = () => {
               />
               <FormInput
                 id="state"
-                name="state"  // Ensure name attribute is added
+                name="state" 
                 label="State"
                 placeholder="Enter state"
                 type="text"
@@ -73,7 +72,7 @@ const AddAddress = () => {
               />
               <FormInput
                 id="city"
-                name="city"  // Ensure name attribute is added
+                name="city"  
                 label="City"
                 placeholder="Enter the city"
                 type="text"
@@ -81,7 +80,7 @@ const AddAddress = () => {
               />
               <FormInput
                 id="country"
-                name="country"  // Ensure name attribute is added
+                name="country" 
                 label="Country"
                 placeholder="Enter country"
                 type="text"
@@ -89,7 +88,7 @@ const AddAddress = () => {
               />
               <FormInput
                 id="pinCode"
-                name="pinCode"  // Ensure name attribute is added
+                name="pinCode"  
                 label="Pin code"
                 placeholder="Enter the pin code"
                 type="number"
@@ -97,7 +96,7 @@ const AddAddress = () => {
               />
               <FormInput
                 id="phoneNo"
-                name="phoneNo"  // Ensure name attribute is added
+                name="phoneNo" 
                 label="Phone number"
                 placeholder="Enter Phone number"
                 type="number"
@@ -130,9 +129,9 @@ const AddAddress = () => {
 
               {/* Submit Button */}
               <FormSubmit
-                type="submit"  // Make sure it's a submit button
+                type="submit"
                 className="w-full bg-red-500 text-white h-10 mt-4 hover:bg-red-600 transition-all"
-                disabled={loading}  // Disable the button when loading
+                disabled={loading}  
               >
                 {loading ? "Processing..." : "Create Order"}
               </FormSubmit>

@@ -73,7 +73,7 @@ const Footer = () => {
     </div>
     <Separator />
     <div className="text-center my-4">
-      <p>Copyright &copy; 2024 Ecommerce | Nelen Maharjan</p>
+      <p className="font-semibold text-sm">Copyright &copy; 2024 Ecommerce | Nelen Maharjan</p>
     </div>
     </footer>
   );

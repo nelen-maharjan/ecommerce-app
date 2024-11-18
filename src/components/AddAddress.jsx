@@ -105,7 +105,7 @@ const AddAddress = () => {
 
               {/* Payment Method Selection */}
               <div className="mt-4">
-                <label htmlFor="stripe" className="mr-4">Payment Method:</label>
+                <label htmlFor="stripe" className="mr-2">Payment Method:</label>
                 <input
                   type="radio"
                   id="stripe"

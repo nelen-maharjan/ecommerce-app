@@ -25,6 +25,24 @@ import { Separator } from "./ui/separator";
 import { logout } from "@/utils/actions";
 
 const Header = ({ categories, session }) => {
+  // Ensure session is a plain object
+  const plainSession = {
+    isLoggedIn: session?.isLoggedIn,
+    user: {
+      name: session?.user?.name,
+      email: session?.user?.email,
+      image: session?.user?.image,
+    },
+  };
+
+  // Ensure categories is a plain object array
+  const plainCategories = categories?.map((category) => ({
+    id: category.id,
+    name: category.name,
+    description: category.description,
+    image: category.image,
+  }));
+
   return (
     <div>
       <Navbar />
@@ -49,7 +67,7 @@ const Header = ({ categories, session }) => {
                   <NavigationMenuTrigger>Category</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                      {categories?.map((component) => (
+                      {plainCategories?.map((component) => (
                         <ListItem
                           key={component.id}
                           title={component.name}
@@ -75,22 +93,22 @@ const Header = ({ categories, session }) => {
             <ShoppingCart size={20} />
           </Link>
 
-          {!session?.isLoggedIn && (
+          {!plainSession?.isLoggedIn && (
             <Link href="/login" className="text-slate-800 hover:underline">
               Login
             </Link>
           )}
 
-          {session?.isLoggedIn ? (
+          {plainSession?.isLoggedIn ? (
             <Popover>
               <PopoverTrigger asChild>
                 <Avatar>
                   <AvatarImage
-                    src={session?.user?.image}
-                    alt={session?.user?.name}
+                    src={plainSession?.user?.image}
+                    alt={plainSession?.user?.name}
                   />
                   <AvatarFallback>
-                    {session?.user?.name?.[0]?.toUpperCase()}
+                    {plainSession?.user?.name?.[0]?.toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
               </PopoverTrigger>
@@ -98,10 +116,10 @@ const Header = ({ categories, session }) => {
                 <div className="grid gap-2">
                   <div className="space-y-2">
                     <h4 className="font-medium leading-none">
-                      {session?.user?.name}
+                      {plainSession?.user?.name}
                     </h4>
                     <p className="text-sm text-muted-foreground">
-                      {session?.user?.email}
+                      {plainSession?.user?.email}
                     </p>
                   </div>
                   <Separator className="my-1" />

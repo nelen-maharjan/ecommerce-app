@@ -7,13 +7,29 @@ import React from "react";
 const EcommerceLayout = async({ children }) => {
   const categories = await prisma?.category.findMany();
   const session = await getSession();
+
+  const plainSession = {
+    isLoggedIn: session?.isLoggedIn,
+    user: {
+      name: session?.user?.name,
+      email: session?.user?.email,
+      image: session?.user?.image,
+    },
+  };
+
+  const plainCategories = categories?.map((category) => ({
+    id: category.id,
+    name: category.name,
+    description: category.description,
+    image: category.image,
+  }));
+
   return (
     <div>
       <Toaster />
-      <Header categories={categories} session={session} />
+      <Header categories={plainCategories} session={plainSession} />
       {children}
     </div>
-    
   );
 };
 

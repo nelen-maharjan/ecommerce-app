@@ -109,7 +109,7 @@ const Header = ({ categories, session }) => {
                     <LayoutDashboard size={20} /> <span>Dashboard</span>
                   </Link>
                   <Separator className="my-1" />
-                  <Link href="/dashboard" className="flex items-center gap-2">
+                  <Link href="/my-orders" className="flex items-center gap-2">
                     <ListOrdered size={20} /> <span>My Orders</span>
                   </Link>
                   <Separator className="my-1" />

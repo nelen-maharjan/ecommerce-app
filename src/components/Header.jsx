@@ -14,7 +14,7 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { Input } from "./ui/input";
-import { Heart, LayoutDashboard, Menu, ShoppingCart } from "lucide-react";
+import { Heart, LayoutDashboard, ListOrdered, Menu, ShoppingCart } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -95,7 +95,7 @@ const Header = ({ categories, session }) => {
                 </Avatar>
               </PopoverTrigger>
               <PopoverContent className="w-60">
-                <div className="grid gap-4">
+                <div className="grid gap-2">
                   <div className="space-y-2">
                     <h4 className="font-medium leading-none">
                       {session?.user?.name}
@@ -104,11 +104,15 @@ const Header = ({ categories, session }) => {
                       {session?.user?.email}
                     </p>
                   </div>
-                  <Separator className="my-2" />
+                  <Separator className="my-1" />
                   <Link href="/dashboard" className="flex items-center gap-2">
                     <LayoutDashboard size={20} /> <span>Dashboard</span>
                   </Link>
-                  <Separator className="my-2" />
+                  <Separator className="my-1" />
+                  <Link href="/dashboard" className="flex items-center gap-2">
+                    <ListOrdered size={20} /> <span>My Orders</span>
+                  </Link>
+                  <Separator className="my-1" />
                   <form action={logout}>
                     <button className="cursor-pointer border-none outline-none flex items-center gap-2">
                       Logout

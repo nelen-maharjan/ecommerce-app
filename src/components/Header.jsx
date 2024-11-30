@@ -25,7 +25,6 @@ import { Separator } from "./ui/separator";
 import { logout } from "@/utils/actions";
 
 const Header = ({ categories, session }) => {
-  // Ensure session is a plain object
   const plainSession = {
     isLoggedIn: session?.isLoggedIn,
     user: {
@@ -35,7 +34,6 @@ const Header = ({ categories, session }) => {
     },
   };
 
-  // Ensure categories is a plain object array
   const plainCategories = categories?.map((category) => ({
     id: category.id,
     name: category.name,

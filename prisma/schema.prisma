@@ -25,6 +25,8 @@ model User {
   createdAt DateTime   @default(now())
   Product   Product[]
   Favourite  Favourite[]
+
+  Order Order[]
 }
 
 model Category {
@@ -57,6 +59,8 @@ model Order {
   addressInfo AddressInfo?
   OrderItem   OrderItem[]
   createdAt   DateTime     @default(now())
+  userId      String?      @db.ObjectId // Add the userId field to link with the User model
+  User        User?        @relation(fields: [userId], references: [id])
 }
 
 model OrderItem {

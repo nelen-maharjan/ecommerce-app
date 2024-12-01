@@ -10,25 +10,18 @@ const MyOrders = async () => {
     return <div>Please log in to view your orders.</div>;
   }
 
-  // Fetch the orders placed by the logged-in user (through OrderItem and Product)
   const orders = await prisma.order.findMany({
     where: {
-      OrderItem: {
-        some: {
-          product: {
-            userId: session.user.id, // Filter OrderItems by the user's ID in the Product model
-          },
-        },
-      },
-      isPaid: true, // Optionally filter paid orders
+      userId: session.user.id,  
+      isPaid: true, 
     },
     include: {
       OrderItem: {
         include: {
-          product: true, // Include product data for each order item
+          product: true,  
         },
       },
-      addressInfo: true, // Include address information if necessary
+      addressInfo: true, 
     },
   });
 

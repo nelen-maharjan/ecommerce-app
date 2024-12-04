@@ -33,7 +33,7 @@ const MyOrders = async () => {
       {orders.length === 0 ? (
         <div>No orders found.</div>
       ) : (
-        <OrderList orders={orders} />  // Pass orders to OrderList component
+        <OrderList orders={orders} /> 
       )}
     </div>
   );

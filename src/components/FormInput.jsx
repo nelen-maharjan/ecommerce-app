@@ -49,4 +49,7 @@ const FormInput = forwardRef(
   }
 );
 
+// Add this line to avoid the display-name warning
+FormInput.displayName = "FormInput";
+
 export default FormInput;

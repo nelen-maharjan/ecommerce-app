@@ -48,13 +48,13 @@ const Footer = () => {
             <Link href="/products">Electronics</Link>{" "}
           </li>
           <li>
-            <Link href="/products">Men's Clothing</Link>{" "}
+            <Link href="/products">Men&apos;s Clothing</Link>{" "}
           </li>
           <li>
             <Link href="/products">Mobile Phones</Link>{" "}
           </li>
           <li>
-            <Link href="/products">Women's Clothing</Link>{" "}
+            <Link href="/products">Women&apos;s Clothing</Link>{" "}
           </li>
           <li>
             <Link href="/products">Watches</Link>{" "}

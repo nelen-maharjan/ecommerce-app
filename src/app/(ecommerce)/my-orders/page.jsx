@@ -1,6 +1,6 @@
-import OrderList from "@/components/OrderList"; // Assuming you have this component
+import OrderList from "@/components/OrderList"; 
 import prisma from "@/utils/connection";
-import { getSession } from "@/utils/actions"; // Assuming you have this utility
+import { getSession } from "@/utils/actions"; 
 
 const MyOrders = async () => {
   // Fetch the current session (logged-in user)
@@ -12,20 +12,20 @@ const MyOrders = async () => {
 
   const orders = await prisma.order.findMany({
     where: {
-      userId: session.user.id,  
+      userId: session.user.id, 
       isPaid: true, 
     },
     include: {
       OrderItem: {
         include: {
-          product: true,  
+          product: true, // Include related products in OrderItems
         },
       },
-      addressInfo: true, 
+      addressInfo: true, // Include the associated addressInfo for the order
     },
   });
 
-  // Display the orders using OrderList component
+  // Display the orders using the OrderList component
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-semibold mb-6">My Orders</h1>

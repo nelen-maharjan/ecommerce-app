@@ -36,7 +36,7 @@ export const createOrder = async (formData, cart) => {
     // Create the order in the database, associating it with the user
     const order = await prisma.order.create({
       data: {
-        userId: userId, // Link the order to the user
+        userId: userId, 
         addressInfo: {
           create: { address, state, city, country, pinCode, PhoneNo },
         },

@@ -59,8 +59,8 @@ model Order {
   addressInfo AddressInfo?
   OrderItem   OrderItem[]
   createdAt   DateTime     @default(now())
-  userId      String?      @db.ObjectId // Add the userId field to link with the User model
-  User        User?        @relation(fields: [userId], references: [id])
+  userId      String       @db.ObjectId // Make userId required (non-nullable)
+  User        User         @relation(fields: [userId], references: [id])
 }
 
 model OrderItem {

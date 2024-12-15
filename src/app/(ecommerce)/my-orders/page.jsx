@@ -3,7 +3,6 @@ import prisma from "@/utils/connection";
 import { getSession } from "@/utils/actions"; 
 
 const MyOrders = async () => {
-  // Fetch the current session (logged-in user)
   const session = await getSession();
 
   if (!session?.isLoggedIn) {
@@ -13,15 +12,10 @@ const MyOrders = async () => {
   const orders = await prisma.order.findMany({
     where: {
       userId: session.user.id, 
-      isPaid: true, 
     },
     include: {
-      OrderItem: {
-        include: {
-          product: true, // Include related products in OrderItems
-        },
-      },
-      addressInfo: true, // Include the associated addressInfo for the order
+      OrderItem: true,  
+      addressInfo: true,  
     },
   });
 

@@ -25,17 +25,14 @@ import { Separator } from "./ui/separator";
 import { logout } from "@/utils/actions";
 
 const Header = ({ categories, session }) => {
-  console.log("After login",session);
   const plainSession = {
     isLoggedIn: session?.isLoggedIn,
     user: {
       name: session?.user?.name,
       email: session?.user?.email,
       image: session?.user?.image,
-      role: session?.user?.role,  
     },
   };
-
 
   const plainCategories = categories?.map((category) => ({
     id: category.id,
@@ -124,11 +121,9 @@ const Header = ({ categories, session }) => {
                     </p>
                   </div>
                   <Separator className="my-1" />
-                  {plainSession?.user?.role === "admin" && (
-                    <Link href="/dashboard" className="flex items-center gap-2">
-                      <LayoutDashboard size={20} /> <span>Dashboard</span>
-                    </Link>
-                  )}
+                  <Link href="/dashboard" className="flex items-center gap-2">
+                    <LayoutDashboard size={20} /> <span>Dashboard</span>
+                  </Link>
                   <Separator className="my-1" />
                   <Link href="/my-orders" className="flex items-center gap-2">
                     <ListOrdered size={20} /> <span>My Orders</span>

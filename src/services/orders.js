@@ -11,6 +11,7 @@ export const createOrder = async (formData, cart) => {
     return { error: "User not found" };
   }
 
+  const userId = session.user.id; // Get the userId from session
   const address = formData.get("address");
   const state = formData.get("state");
   const city = formData.get("city");
@@ -32,9 +33,10 @@ export const createOrder = async (formData, cart) => {
       };
     });
 
-    // Create the order in the database
+    // Create the order in the database, associating it with the user
     const order = await prisma.order.create({
       data: {
+        userId: userId, // Link the order to the user
         addressInfo: {
           create: { address, state, city, country, pinCode, PhoneNo },
         },
@@ -105,7 +107,7 @@ export const createOrder = async (formData, cart) => {
       const stripeSession = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
         line_items: cartDetails.map((item) => {
-          const product = cart.find((p) => p.product.id === item.productId); // Assuming cart contains the product object
+          const product = cart.find((p) => p.product.id === item.productId); 
           return {
             price_data: {
               currency: "npr", // Ensure this matches your Stripe account currency
@@ -120,10 +122,9 @@ export const createOrder = async (formData, cart) => {
         cancel_url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/cancel`,
       });
 
-      return { result: stripeSession.url };  // Return the Stripe checkout session URL for frontend redirection
+      return { result: stripeSession.url }; 
     }
 
-    // If payment method is invalid
     else {
       return { error: "Invalid payment method" };
     }
@@ -133,23 +134,43 @@ export const createOrder = async (formData, cart) => {
   }
 };
 
+
 export const confirmOrder = async (id) => {
   const session = await getSession();
+  
   if (!session.isLoggedIn) {
     return { error: "User not found" };
   }
 
-  let order;
   try {
-    order = await prisma.order.update({
+    // First, find the order by ID
+    const order = await prisma.order.findUnique({
+      where: { id },
+    });
+
+    if (!order) {
+      return { error: "Order not found" };
+    }
+
+    // Ensure the logged-in user is the same as the one who created the order
+    if (order.userId !== session.user.id) {
+      return { error: "You are not authorized to update this order" };
+    }
+
+    // Now, update the order to mark it as paid
+    const updatedOrder = await prisma.order.update({
       where: { id },
       data: { isPaid: true },
     });
-    if (!order) {
+
+    if (!updatedOrder) {
       return { error: "Order not updated" };
     }
+
+    return { result: updatedOrder };
   } catch (error) {
+    console.error("Error confirming order:", error);
     return { error: "Order not updated" };
   }
-  return { result: order };
 };
+

@@ -13,10 +13,7 @@ const MyOrders = async () => {
     where: {
       userId: session.user.id, 
     },
-    include: {
-      OrderItem: true,  
-      addressInfo: true,  
-    },
+    include: { OrderItem: { include: { product: true } }, addressInfo:true }
   });
 
   // Display the orders using the OrderList component

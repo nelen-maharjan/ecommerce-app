@@ -35,7 +35,6 @@ export default async function Home() {
           <CategoryList categories={categories} />
           <Enhancement className="my-4" />
           <Flashsales title="Our Products" heading="Explore Our Products" products={popularProducts} />
-          <ChooseUs  />
           <Footer />
         </div>
       </div>
